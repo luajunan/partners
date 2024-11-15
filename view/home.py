@@ -221,7 +221,6 @@ def display_employee_card(employee_data, index):
             )
         else:
             # Edit mode
-            print(st.session_state)
             with st.form(f"edit_form_{index}"):
                 # Create form fields for each detail
                 new_name = st.text_input("Name", value=employee_data["Name"])
@@ -263,12 +262,9 @@ def display_employee_card(employee_data, index):
                     "BigS/SmallS", value=employee_data["BigS/SmallS"]
                 )
                 submitted = st.form_submit_button("Submit")
+                cancelled = st.form_submit_button("Cancel")
 
-                print(st.session_state)
-                print(submitted)
                 if submitted:
-                    print("form submitted")
-                    print(new_name)
                     df.at[index, "Name"] = new_name
                     df.at[index, "Designation"] = new_designation
                     df.at[index, "Status"] = new_status
@@ -291,9 +287,9 @@ def display_employee_card(employee_data, index):
                     st.success("Employee information updated successfully!")
                     st.session_state[f"edit_mode_{index}"] = False
                     st.rerun()
-                # else:
-                #     st.form_submit_button("Cancel")
-                #     st.session_state[f"edit_mode_{index}"] = False
+                if cancelled:
+                    st.session_state[f"edit_mode_{index}"] = False
+                    st.rerun()
 
 
 # Display number of employee cards shown
